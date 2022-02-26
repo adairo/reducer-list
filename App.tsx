@@ -8,6 +8,7 @@ export interface ItemType {
 }
 
 const App = () => {
+  // The Reducer to create and delete items
   const [items, dispatchItems] = useReducer(itemReducer, []);
   return (
     <React.Fragment>

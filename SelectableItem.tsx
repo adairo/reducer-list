@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { ItemType } from './App';
 import { ActionType } from './selectedReducer';
-import { CountableItemType } from './selectedReducer';
 
 type Props = {
   item: ItemType;
@@ -10,14 +9,13 @@ type Props = {
 };
 
 const SelectableItem = ({ item, info, dispatch }: Props) => {
-  const inputRef = useRef(null);
-
+  // Commands to select or unselect items from selectedItems
   const handleSelect = (checked: boolean) => {
     if (checked) {
       dispatch({
         command: 'select',
         payload: {
-          item: { ...item, count: info.count },
+          itemName: item.name,
         },
       });
     } else {
@@ -25,6 +23,7 @@ const SelectableItem = ({ item, info, dispatch }: Props) => {
     }
   };
 
+  // Command to modify the *count* property of the item
   const handleQuantity = (quantity: number) => {
     dispatch({
       command: 'modify',
@@ -43,11 +42,13 @@ const SelectableItem = ({ item, info, dispatch }: Props) => {
       <div style={{ flex: 1 }}>{item.name}</div>
       <input
         type="checkbox"
+        // Important to use a prop as checked
         checked={info.selected}
         onChange={(e) => handleSelect(e.target.checked)}
       />
       <input
         type="number"
+        // Important to use a prop as value
         value={info.count}
         onChange={(e) => handleQuantity(Number(e.target.value))}
         min="1"
